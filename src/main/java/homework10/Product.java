@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @ToString
-public class Product {
+public final class Product {
     private final String type;
     private final double price;
     private final boolean discount;

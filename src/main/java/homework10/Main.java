@@ -15,7 +15,7 @@ public class Main {
                         1, 1, 9, 25)).build(),
                 Product.builder().type("Notebook").price(120).discount(true).dateOfAddition(LocalDateTime.of(2024,
                         1, 1, 9, 35)).build(),
-                Product.builder().type("Book").price(60).discount(true).dateOfAddition(LocalDateTime.of(2024,
+                Product.builder().type("Book").price(60).discount(false).dateOfAddition(LocalDateTime.of(2024,
                         1, 2, 9, 10)).build(),
                 Product.builder().type("Book").price(200).discount(true).dateOfAddition(LocalDateTime.of(2024,
                         1, 2, 9, 20)).build(),
@@ -35,10 +35,10 @@ public class Main {
 
         productSearch(products, "Book", 250);
         productWithDiscounts(products, "Book", 10);
-        cheapestProduct(products, "Book", 10);
+        cheapestProduct(products, "Book");
         latestAddedProducts(products);
         calculatingTotalCost(products, "Book", 75);
-        cheapestProduct(products, "Pen", 10);
+        cheapestProduct(products, "Pen");
     }
 
     public static void productSearch(List<Product> products, String category, Integer price) {
@@ -58,11 +58,10 @@ public class Main {
         System.out.println("Products in this category at a discount " + productWithDiscounts);
     }
 
-    public static void cheapestProduct(List<Product> products, String category, double discountPercentage) {
-        double discount = discountPercentage / 100;
+    public static void cheapestProduct(List<Product> products, String category) {
         Double cheapestProduct = products.stream()
-                .filter(product -> product.getType().equals(category) && product.isDiscount())
-                .map(product -> product.getPrice() - (product.getPrice() * discount))
+                .filter(product -> product.getType().equals(category))
+                .map(Product::getPrice)
                 .min(Double::compare)
                 .orElseThrow(() -> new NoSuchElementException("Product [category : " + category + "] was not found"));
         System.out.printf("The cheapest product from the specified category %s %s%n", category, cheapestProduct);
